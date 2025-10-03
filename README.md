@@ -1,73 +1,137 @@
-# Welcome to your Lovable project
+Customizable React Toaster
 
-## Project info
+A fully customizable React toaster component with features like custom design, progress bar, animation types, and default CSS management. This package allows users to easily integrate and customize toasters with options like background color, position, size, animation, and much more.
 
-**URL**: https://lovable.dev/projects/f3c0269d-4f14-4aed-a21f-14649c363656
+Features
 
-## How can I edit this code?
+Customizable Design: Set background color, text color, font size, border radius, and other visual properties.
 
-There are several ways of editing your application.
+Progress Bar: Show a progress bar that fills according to the duration of the toaster's visibility.
 
-**Use Lovable**
+Positioning: Choose the position of the toaster on the screen (top-left, top-right, bottom-left, bottom-right).
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f3c0269d-4f14-4aed-a21f-14649c363656) and start prompting.
+Custom Animations: Choose from several animation types such as fade, slide, zoom, and bounce.
 
-Changes made via Lovable will be committed automatically to this repo.
+Default CSS: Automatically apply default styling if the user does not provide any custom styles.
 
-**Use your preferred IDE**
+Custom Length: Control how long the toaster stays on the screen.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Gradient Colors: Easily apply gradient colors to the toaster background.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Extendable: If no custom styles are provided, a clean default design will be applied.
 
-Follow these steps:
+Installation
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+You can install this package via npm or yarn:
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+npm install customizable-react-toaster
 
-# Step 3: Install the necessary dependencies.
-npm i
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+Or with yarn:
 
-**Edit a file directly in GitHub**
+yarn add customizable-react-toaster
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Usage
 
-**Use GitHub Codespaces**
+Import the Toaster component and use it in your React app.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Basic Example
+import React from 'react';
+import { Toaster } from 'customizable-react-toaster';
 
-## What technologies are used for this project?
+function App() {
+  return (
+    <div className="App">
+      <Toaster
+        message="This is a customizable toaster"
+        position="top-right"
+        backgroundColor="blue"
+        textColor="white"
+        fontSize="16px"
+        progressBar={true}
+        duration={5000}
+        animation="fade"
+        customStyles={{ borderRadius: '8px', boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.2)' }}
+        gradient={['#FF5733', '#C70039']}
+      />
+    </div>
+  );
+}
 
-This project is built with:
+export default App;
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Props
 
-## How can I deploy this project?
+Here are the available props for the Toaster component:
 
-Simply open [Lovable](https://lovable.dev/projects/f3c0269d-4f14-4aed-a21f-14649c363656) and click on Share -> Publish.
+Prop	Type	Description	Default Value
+message	string	The message to be displayed in the toaster.	null
+position	string	Position of the toaster on the screen. Options: "top-left", "top-right", "bottom-left", "bottom-right".	"top-right"
+backgroundColor	string	Background color of the toaster.	#333
+textColor	string	Text color inside the toaster.	#fff
+fontSize	string	Font size of the toaster message.	14px
+progressBar	boolean	Whether to display a progress bar that fills based on the duration.	false
+duration	number	Duration in milliseconds for how long the toaster stays on the screen.	3000
+animation	string	Animation effect for the toaster. Options: "fade", "slide", "zoom", "bounce".	"fade"
+customStyles	object	Custom CSS styles for the toaster.	null
+gradient	array	Array of two colors to apply a gradient background. Example: ['#FF5733', '#C70039'].	null
+Example with Default Styles
 
-## Can I connect a custom domain to my Lovable project?
+If you don't provide custom styles or settings, the toaster will use a default style:
 
-Yes, you can!
+<Toaster message="This is a default toaster" />
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Customization Example
+<Toaster
+  message="Your custom message here"
+  position="top-right"
+  backgroundColor="blue"
+  textColor="white"
+  fontSize="16px"
+  progressBar={true}
+  duration={5000}
+  animation="slide"
+  customStyles={{ borderRadius: '8px', boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.2)' }}
+  gradient={['#FF5733', '#C70039']}
+/>
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Custom Styles
+
+You can customize the toaster further by passing the customStyles prop, which accepts a JavaScript object with CSS properties.
+
+<Toaster
+  message="Styled toaster"
+  customStyles={{
+    backgroundColor: '#000',
+    color: '#fff',
+    borderRadius: '12px',
+    padding: '10px 20px',
+    boxShadow: '0px 5px 15px rgba(0, 0, 0, 0.2)'
+  }}
+/>
+
+Advanced Animation
+
+You can change the animation type to one of the following options:
+
+"fade" (default)
+
+"slide"
+
+"zoom"
+
+"bounce"
+
+For example, to use a slide-in effect:
+
+<Toaster message="This is a sliding toaster" animation="slide" />
+
+Contributing
+
+If you'd like to contribute, feel free to fork the repository and submit a pull request. You can also open issues for bugs or feature requests.
+
+License
+
+MIT License. See LICENSE for more details.
+
+This README file provides comprehensive information on how to install, use, and customize your React toaster component. It also includes a section for contributing and licensing, making it suitable for an open-source npm package.
