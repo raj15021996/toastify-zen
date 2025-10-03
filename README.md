@@ -101,7 +101,7 @@ function YourComponent() {
 | `progressBar`  | `boolean` | Whether to show a progress bar.                                                                                                                   | `true`                 |
 | `gradient`     | `boolean` | Whether to use a gradient background for the toaster.                                                                                             | `false`                |
 | `customStyles` | `object`  | Custom styles to apply to the toaster (background color, text color, border-radius, padding, etc.).                                               | `undefined`            |
-| -------------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------  |----------------------- |
+
 
 ## Position Options
 
