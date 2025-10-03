@@ -19,6 +19,7 @@ You can install this package via npm or yarn:
 
 ```bash
 npm install customizable-react-toaster
+```
 
 ```bash
 yarn add customizable-react-toaster
