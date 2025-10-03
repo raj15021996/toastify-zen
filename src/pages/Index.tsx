@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useToaster, ToastPosition, ToastAnimation, ToastType } from '@/contexts/ToasterContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,10 +8,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
-import { Sparkles, Package, Code2, Palette } from 'lucide-react';
+import { Sparkles, Package, Code2, Palette, Moon, Sun } from 'lucide-react';
 
 const Index = () => {
   const { addToast } = useToaster();
+  const [isDark, setIsDark] = useState(false);
   
   // Configuration state
   const [message, setMessage] = useState('Your notification message here!');
@@ -32,6 +33,14 @@ const Index = () => {
   const [customPadding, setCustomPadding] = useState('16px');
   const [enable3D, setEnable3D] = useState(false);
 
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDark]);
+
   const showToast = () => {
     addToast({
       message,
@@ -49,7 +58,7 @@ const Index = () => {
         borderRadius: customBorderRadius,
         padding: customPadding,
         boxShadow: enable3D ? '0 20px 60px rgba(0, 0, 0, 0.3), 0 10px 20px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)' : undefined,
-        border: enable3D ? '1px solid rgba(255, 255, 255, 0.1)' : undefined,
+        border: enable3D ? '2px solid rgba(255, 255, 255, 0.3)' : undefined,
       } : undefined,
     });
   };
@@ -74,9 +83,20 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 transition-colors">
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-16">
+        <div className="flex justify-end mb-4">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setIsDark(!isDark)}
+            className="rounded-full"
+          >
+            {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </Button>
+        </div>
+        
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-primary/10 text-primary">
             <Sparkles className="h-4 w-4" />
@@ -86,7 +106,7 @@ const Index = () => {
             Beautiful Notifications
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            A fully customizable React toaster component with animations, gradients, and complete control over styling
+            A fully customizable React toaster with animations, gradients, 3D effects, and dark mode support
           </p>
         </div>
 

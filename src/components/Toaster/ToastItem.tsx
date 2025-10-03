@@ -36,19 +36,44 @@ const getAnimationClass = (animation: ToastAnimation, isExiting: boolean, positi
   return isExiting ? 'animate-toast-fade-out' : 'animate-toast-fade-in';
 };
 
-const getTypeStyles = (type: string) => {
+const getTypeColors = (type: string) => {
   switch (type) {
     case 'success':
-      return 'bg-[hsl(var(--toaster-success))] text-[hsl(var(--toaster-success-foreground))] border-[hsl(var(--toaster-success))]';
+      return {
+        bg: 'hsl(var(--toaster-success))',
+        text: 'hsl(var(--toaster-success-foreground))',
+        border: 'hsl(var(--toaster-success))'
+      };
     case 'error':
-      return 'bg-[hsl(var(--toaster-error))] text-[hsl(var(--toaster-error-foreground))] border-[hsl(var(--toaster-error))]';
+      return {
+        bg: 'hsl(var(--toaster-error))',
+        text: 'hsl(var(--toaster-error-foreground))',
+        border: 'hsl(var(--toaster-error))'
+      };
     case 'warning':
-      return 'bg-[hsl(var(--toaster-warning))] text-[hsl(var(--toaster-warning-foreground))] border-[hsl(var(--toaster-warning))]';
+      return {
+        bg: 'hsl(var(--toaster-warning))',
+        text: 'hsl(var(--toaster-warning-foreground))',
+        border: 'hsl(var(--toaster-warning))'
+      };
     case 'info':
-      return 'bg-[hsl(var(--toaster-info))] text-[hsl(var(--toaster-info-foreground))] border-[hsl(var(--toaster-info))]';
+      return {
+        bg: 'hsl(var(--toaster-info))',
+        text: 'hsl(var(--toaster-info-foreground))',
+        border: 'hsl(var(--toaster-info))'
+      };
     default:
-      return 'bg-[hsl(var(--toaster-default))] text-[hsl(var(--toaster-default-foreground))] border-border';
+      return {
+        bg: 'hsl(var(--toaster-default))',
+        text: 'hsl(var(--toaster-default-foreground))',
+        border: 'hsl(var(--border))'
+      };
   }
+};
+
+const getTypeStyles = (type: string) => {
+  const colors = getTypeColors(type);
+  return `bg-[${colors.bg}] text-[${colors.text}] border-[${colors.border}]`;
 };
 
 const getTypeIcon = (type: string) => {
@@ -93,20 +118,21 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
     }
   }, [toast.progressBar, toast.duration, toast.isExiting]);
 
-  const baseStyles = toast.customStyles
-    ? {
-        backgroundColor: toast.customStyles.backgroundColor,
-        color: toast.customStyles.textColor,
-        fontSize: toast.customStyles.fontSize,
-        borderRadius: toast.customStyles.borderRadius,
-        width: toast.customStyles.width,
-        height: toast.customStyles.height,
-        boxShadow: toast.customStyles.boxShadow,
-        border: toast.customStyles.border,
-        fontWeight: toast.customStyles.fontWeight,
-        padding: toast.customStyles.padding,
-      }
-    : {};
+  const typeColors = getTypeColors(toast.type || 'default');
+  
+  const baseStyles = {
+    backgroundColor: toast.customStyles?.backgroundColor || typeColors.bg,
+    color: toast.customStyles?.textColor || typeColors.text,
+    borderColor: typeColors.border,
+    fontSize: toast.customStyles?.fontSize,
+    borderRadius: toast.customStyles?.borderRadius,
+    width: toast.customStyles?.width,
+    height: toast.customStyles?.height,
+    boxShadow: toast.customStyles?.boxShadow,
+    border: toast.customStyles?.border,
+    fontWeight: toast.customStyles?.fontWeight,
+    padding: toast.customStyles?.padding,
+  };
 
   const gradientStyle = toast.gradient
     ? {
@@ -114,19 +140,23 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
       }
     : {};
 
+  const is3D = toast.customStyles?.boxShadow?.includes('20px');
+
   return (
     <div
       className={`
         ${animationClass}
-        ${!toast.customStyles ? getTypeStyles(toast.type || 'default') : ''}
-        min-w-[300px] max-w-md rounded-lg border shadow-lg overflow-hidden pointer-events-auto
-        relative
-        ${toast.customStyles?.boxShadow?.includes('20px') ? 'transform-gpu hover:scale-[1.02] transition-transform' : ''}
+        min-w-[300px] max-w-md rounded-lg border-2 overflow-hidden pointer-events-auto
+        relative backdrop-blur-sm
+        ${is3D ? 'shadow-2xl transform-gpu hover:scale-105 transition-all duration-300' : 'shadow-lg'}
       `}
       style={{ 
         ...baseStyles, 
         ...gradientStyle,
-        transform: toast.customStyles?.boxShadow?.includes('20px') ? 'perspective(1000px) rotateX(2deg)' : undefined,
+        transform: is3D ? 'perspective(1200px) rotateX(3deg) translateZ(20px)' : undefined,
+        boxShadow: is3D 
+          ? `0 25px 50px -12px ${typeColors.bg.replace(')', ' / 0.4)')}, 0 0 30px ${typeColors.bg.replace(')', ' / 0.2)')}, inset 0 2px 4px rgba(255,255,255,0.2)`
+          : baseStyles.boxShadow,
       }}
     >
       <div className="flex items-start gap-3 p-4">
