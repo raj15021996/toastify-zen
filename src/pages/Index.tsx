@@ -26,6 +26,11 @@ const Index = () => {
   const [useCustomStyles, setUseCustomStyles] = useState(false);
   const [customBg, setCustomBg] = useState('#ffffff');
   const [customText, setCustomText] = useState('#000000');
+  const [customWidth, setCustomWidth] = useState('400px');
+  const [customHeight, setCustomHeight] = useState('auto');
+  const [customBorderRadius, setCustomBorderRadius] = useState('8px');
+  const [customPadding, setCustomPadding] = useState('16px');
+  const [enable3D, setEnable3D] = useState(false);
 
   const showToast = () => {
     addToast({
@@ -36,9 +41,15 @@ const Index = () => {
       duration,
       progressBar,
       gradient: useGradient ? [gradientStart, gradientEnd] : undefined,
-      customStyles: useCustomStyles ? {
-        backgroundColor: customBg,
-        textColor: customText,
+      customStyles: useCustomStyles || enable3D ? {
+        backgroundColor: useCustomStyles ? customBg : undefined,
+        textColor: useCustomStyles ? customText : undefined,
+        width: customWidth,
+        height: customHeight,
+        borderRadius: customBorderRadius,
+        padding: customPadding,
+        boxShadow: enable3D ? '0 20px 60px rgba(0, 0, 0, 0.3), 0 10px 20px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)' : undefined,
+        border: enable3D ? '1px solid rgba(255, 255, 255, 0.1)' : undefined,
       } : undefined,
     });
   };
@@ -305,6 +316,71 @@ const Index = () => {
                 )}
               </div>
 
+              <Separator />
+
+              {/* Dimensions & Spacing */}
+              <div className="space-y-4">
+                <Label className="text-base font-semibold">Dimensions & Spacing</Label>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="customWidth">Width</Label>
+                    <Input
+                      id="customWidth"
+                      value={customWidth}
+                      onChange={(e) => setCustomWidth(e.target.value)}
+                      placeholder="e.g., 400px, 100%"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="customHeight">Height</Label>
+                    <Input
+                      id="customHeight"
+                      value={customHeight}
+                      onChange={(e) => setCustomHeight(e.target.value)}
+                      placeholder="e.g., auto, 100px"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="customBorderRadius">Border Radius</Label>
+                    <Input
+                      id="customBorderRadius"
+                      value={customBorderRadius}
+                      onChange={(e) => setCustomBorderRadius(e.target.value)}
+                      placeholder="e.g., 8px, 1rem"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="customPadding">Padding</Label>
+                    <Input
+                      id="customPadding"
+                      value={customPadding}
+                      onChange={(e) => setCustomPadding(e.target.value)}
+                      placeholder="e.g., 16px, 1rem"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <Separator />
+
+              {/* 3D Effect */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="enable3D">3D Effect</Label>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Add depth with shadows and perspective
+                    </p>
+                  </div>
+                  <Switch
+                    id="enable3D"
+                    checked={enable3D}
+                    onCheckedChange={setEnable3D}
+                  />
+                </div>
+              </div>
+
               <Button onClick={showToast} className="w-full" size="lg">
                 Show Toast
               </Button>
@@ -334,7 +410,13 @@ const MyComponent = () => {
       position: "${position}",
       animation: "${animation}",
       duration: ${duration},
-      progressBar: ${progressBar},${useGradient ? `\n      gradient: ["${gradientStart}", "${gradientEnd}"],` : ''}${useCustomStyles ? `\n      customStyles: {\n        backgroundColor: "${customBg}",\n        textColor: "${customText}",\n      },` : ''}
+      progressBar: ${progressBar},${useGradient ? `\n      gradient: ["${gradientStart}", "${gradientEnd}"],` : ''}
+      customStyles: {${useCustomStyles ? `\n        backgroundColor: "${customBg}",\n        textColor: "${customText}",` : ''}
+        width: "${customWidth}",
+        height: "${customHeight}",
+        borderRadius: "${customBorderRadius}",
+        padding: "${customPadding}",${enable3D ? `\n        boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3), 0 10px 20px rgba(0, 0, 0, 0.2)",\n        border: "1px solid rgba(255, 255, 255, 0.1)",` : ''}
+      },
     });
   };
 
@@ -378,6 +460,14 @@ const MyComponent = () => {
                   <li className="flex items-start gap-2">
                     <span className="text-primary mt-0.5">✓</span>
                     <span><strong>Custom Styles:</strong> Override any visual property</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary mt-0.5">✓</span>
+                    <span><strong>Dimensions:</strong> Width, height, border radius, padding</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary mt-0.5">✓</span>
+                    <span><strong>3D Effect:</strong> Depth and perspective transforms</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-primary mt-0.5">✓</span>

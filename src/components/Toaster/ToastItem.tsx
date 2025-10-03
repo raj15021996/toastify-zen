@@ -121,8 +121,13 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
         ${!toast.customStyles ? getTypeStyles(toast.type || 'default') : ''}
         min-w-[300px] max-w-md rounded-lg border shadow-lg overflow-hidden pointer-events-auto
         relative
+        ${toast.customStyles?.boxShadow?.includes('20px') ? 'transform-gpu hover:scale-[1.02] transition-transform' : ''}
       `}
-      style={{ ...baseStyles, ...gradientStyle }}
+      style={{ 
+        ...baseStyles, 
+        ...gradientStyle,
+        transform: toast.customStyles?.boxShadow?.includes('20px') ? 'perspective(1000px) rotateX(2deg)' : undefined,
+      }}
     >
       <div className="flex items-start gap-3 p-4">
         {getTypeIcon(toast.type || 'default')}
