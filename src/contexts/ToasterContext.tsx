@@ -15,6 +15,7 @@ export interface ToastCustomStyles {
   border?: string;
   fontWeight?: string;
   padding?: string;
+  fontStyle?: string;
 }
 
 export interface ToastOptions {

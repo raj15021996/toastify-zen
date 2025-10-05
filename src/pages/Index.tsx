@@ -31,6 +31,9 @@ const Index = () => {
   const [customHeight, setCustomHeight] = useState('auto');
   const [customBorderRadius, setCustomBorderRadius] = useState('8px');
   const [customPadding, setCustomPadding] = useState('16px');
+  const [customFontSize, setCustomFontSize] = useState('14px');
+  const [customFontWeight, setCustomFontWeight] = useState('500');
+  const [customFontStyle, setCustomFontStyle] = useState('normal');
   const [enable3D, setEnable3D] = useState(false);
 
   useEffect(() => {
@@ -50,16 +53,19 @@ const Index = () => {
       duration,
       progressBar,
       gradient: useGradient ? [gradientStart, gradientEnd] : undefined,
-      customStyles: useCustomStyles || enable3D ? {
+      customStyles: {
         backgroundColor: useCustomStyles ? customBg : undefined,
         textColor: useCustomStyles ? customText : undefined,
         width: customWidth,
         height: customHeight,
         borderRadius: customBorderRadius,
         padding: customPadding,
+        fontSize: customFontSize,
+        fontWeight: customFontWeight,
+        fontStyle: customFontStyle,
         boxShadow: enable3D ? '0 20px 60px rgba(0, 0, 0, 0.3), 0 10px 20px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)' : undefined,
         border: enable3D ? '2px solid rgba(255, 255, 255, 0.3)' : undefined,
-      } : undefined,
+      },
     });
   };
 
@@ -378,6 +384,37 @@ const Index = () => {
                       onChange={(e) => setCustomPadding(e.target.value)}
                       placeholder="e.g., 16px, 1rem"
                     />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="customFontSize">Font Size</Label>
+                    <Input
+                      id="customFontSize"
+                      value={customFontSize}
+                      onChange={(e) => setCustomFontSize(e.target.value)}
+                      placeholder="e.g., 14px, 1rem"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="customFontWeight">Font Weight</Label>
+                    <Input
+                      id="customFontWeight"
+                      value={customFontWeight}
+                      onChange={(e) => setCustomFontWeight(e.target.value)}
+                      placeholder="e.g., 500, bold"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="customFontStyle">Font Style</Label>
+                    <Select value={customFontStyle} onValueChange={setCustomFontStyle}>
+                      <SelectTrigger id="customFontStyle">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="normal">Normal</SelectItem>
+                        <SelectItem value="italic">Italic</SelectItem>
+                        <SelectItem value="oblique">Oblique</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
               </div>

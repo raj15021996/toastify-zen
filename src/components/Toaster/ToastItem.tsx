@@ -120,18 +120,18 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
 
   const typeColors = getTypeColors(toast.type || 'default');
   
-  const baseStyles = {
+  const baseStyles: React.CSSProperties = {
     backgroundColor: toast.customStyles?.backgroundColor || typeColors.bg,
     color: toast.customStyles?.textColor || typeColors.text,
     borderColor: typeColors.border,
-    fontSize: toast.customStyles?.fontSize,
-    borderRadius: toast.customStyles?.borderRadius,
+    fontSize: toast.customStyles?.fontSize || '14px',
+    borderRadius: toast.customStyles?.borderRadius || '0.5rem',
     width: toast.customStyles?.width,
     height: toast.customStyles?.height,
     boxShadow: toast.customStyles?.boxShadow,
-    border: toast.customStyles?.border,
-    fontWeight: toast.customStyles?.fontWeight,
-    padding: toast.customStyles?.padding,
+    border: toast.customStyles?.border || `2px solid ${typeColors.border}`,
+    fontWeight: toast.customStyles?.fontWeight || '500',
+    fontStyle: toast.customStyles?.fontStyle || 'normal',
   };
 
   const gradientStyle = toast.gradient
@@ -146,7 +146,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
     <div
       className={`
         ${animationClass}
-        min-w-[300px] max-w-md rounded-lg border-2 overflow-hidden pointer-events-auto
+        min-w-[300px] max-w-md overflow-hidden pointer-events-auto
         relative backdrop-blur-sm
         ${is3D ? 'shadow-2xl transform-gpu hover:scale-105 transition-all duration-300' : 'shadow-lg'}
       `}
@@ -159,10 +159,13 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
           : baseStyles.boxShadow,
       }}
     >
-      <div className="flex items-start gap-3 p-4">
+      <div 
+        className="flex items-start gap-3"
+        style={{ padding: toast.customStyles?.padding || '16px' }}
+      >
         {getTypeIcon(toast.type || 'default')}
         <div className="flex-1 pt-0.5">
-          <p className="text-sm font-medium leading-relaxed">{toast.message}</p>
+          <p style={{ margin: 0, lineHeight: '1.5' }}>{toast.message}</p>
         </div>
         <button
           onClick={onClose}
