@@ -93,6 +93,7 @@ const getTypeIcon = (type: string) => {
 
 export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
   const [progress, setProgress] = useState(100);
+  const [isPaused, setIsPaused] = useState(false);
   const animationClass = getAnimationClass(
     toast.animation || 'slide',
     toast.isExiting || false,
@@ -103,9 +104,23 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
     if (toast.progressBar && !toast.isExiting) {
       const startTime = Date.now();
       const duration = toast.duration || 3000;
+      let pausedTime = 0;
+      let pauseStartTime = 0;
       
       const interval = setInterval(() => {
-        const elapsed = Date.now() - startTime;
+        if (isPaused) {
+          if (pauseStartTime === 0) {
+            pauseStartTime = Date.now();
+          }
+          return;
+        }
+        
+        if (pauseStartTime > 0) {
+          pausedTime += Date.now() - pauseStartTime;
+          pauseStartTime = 0;
+        }
+        
+        const elapsed = Date.now() - startTime - pausedTime;
         const remaining = Math.max(0, 100 - (elapsed / duration) * 100);
         setProgress(remaining);
         
@@ -116,7 +131,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
       
       return () => clearInterval(interval);
     }
-  }, [toast.progressBar, toast.duration, toast.isExiting]);
+  }, [toast.progressBar, toast.duration, toast.isExiting, isPaused]);
 
   const typeColors = getTypeColors(toast.type || 'default');
   
@@ -153,16 +168,18 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
       style={{ 
         ...baseStyles, 
         ...gradientStyle,
-        width: toast.customStyles?.width || '350px',
+        width: toast.customStyles?.width || '250px',
         transform: is3D ? 'perspective(1200px) rotateX(3deg) translateZ(20px)' : undefined,
         boxShadow: is3D 
           ? `0 25px 50px -12px ${typeColors.bg.replace(')', ' / 0.4)')}, 0 0 30px ${typeColors.bg.replace(')', ' / 0.2)')}, inset 0 2px 4px rgba(255,255,255,0.2)`
           : baseStyles.boxShadow,
       }}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
     >
       <div 
-        className="flex items-start gap-2"
-        style={{ padding: toast.customStyles?.padding || '16px' }}
+        className="flex items-start gap-1.5"
+        style={{ padding: toast.customStyles?.padding || '12px' }}
       >
         {getTypeIcon(toast.type || 'default')}
         <div className="flex-1 pt-0.5">
