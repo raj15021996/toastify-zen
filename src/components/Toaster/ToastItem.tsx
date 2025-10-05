@@ -146,13 +146,14 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
     <div
       className={`
         ${animationClass}
-        min-w-[300px] max-w-md overflow-hidden pointer-events-auto
+        overflow-hidden pointer-events-auto
         relative backdrop-blur-sm
         ${is3D ? 'shadow-2xl transform-gpu hover:scale-105 transition-all duration-300' : 'shadow-lg'}
       `}
       style={{ 
         ...baseStyles, 
         ...gradientStyle,
+        width: toast.customStyles?.width || '400px',
         transform: is3D ? 'perspective(1200px) rotateX(3deg) translateZ(20px)' : undefined,
         boxShadow: is3D 
           ? `0 25px 50px -12px ${typeColors.bg.replace(')', ' / 0.4)')}, 0 0 30px ${typeColors.bg.replace(')', ' / 0.2)')}, inset 0 2px 4px rgba(255,255,255,0.2)`
@@ -165,7 +166,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
       >
         {getTypeIcon(toast.type || 'default')}
         <div className="flex-1 pt-0.5">
-          <p style={{ margin: 0, lineHeight: '1.5' }}>{toast.message}</p>
+          <p style={{ margin: 0, lineHeight: '1.5', wordBreak: 'break-word' }}>{toast.message}</p>
         </div>
         <button
           onClick={onClose}
