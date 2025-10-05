@@ -63,11 +63,6 @@ export const ToasterProvider: React.FC<{ children: ReactNode }> = ({ children })
 
     setToasts((prev) => [...prev, toast]);
 
-    // Auto remove after duration
-    setTimeout(() => {
-      removeToast(id);
-    }, toast.duration);
-
     return id;
   }, []);
 

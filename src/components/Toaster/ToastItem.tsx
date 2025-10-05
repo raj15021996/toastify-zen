@@ -100,6 +100,40 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
     toast.position || 'top-right'
   );
 
+  // Auto-dismiss timer with pause on hover
+  useEffect(() => {
+    if (toast.isExiting) return;
+    
+    const startTime = Date.now();
+    const duration = toast.duration || 3000;
+    let pausedTime = 0;
+    let pauseStartTime = 0;
+    
+    const interval = setInterval(() => {
+      if (isPaused) {
+        if (pauseStartTime === 0) {
+          pauseStartTime = Date.now();
+        }
+        return;
+      }
+      
+      if (pauseStartTime > 0) {
+        pausedTime += Date.now() - pauseStartTime;
+        pauseStartTime = 0;
+      }
+      
+      const elapsed = Date.now() - startTime - pausedTime;
+      
+      if (elapsed >= duration) {
+        clearInterval(interval);
+        onClose();
+      }
+    }, 100);
+    
+    return () => clearInterval(interval);
+  }, [toast.isExiting, toast.duration, isPaused, onClose]);
+
+  // Progress bar animation
   useEffect(() => {
     if (toast.progressBar && !toast.isExiting) {
       const startTime = Date.now();
