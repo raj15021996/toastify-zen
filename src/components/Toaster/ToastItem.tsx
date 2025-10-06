@@ -180,7 +180,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
       style={{ 
         ...baseStyles, 
         ...gradientStyle,
-        width: toast.customStyles?.width || '250px',
+        width: toast.customStyles?.width || '300px',
         transform: is3D ? 'perspective(1200px) rotateX(3deg) translateZ(20px)' : undefined,
         boxShadow: is3D 
           ? `0 25px 50px -12px ${typeColors.bg.replace(')', ' / 0.4)')}, 0 0 30px ${typeColors.bg.replace(')', ' / 0.2)')}, inset 0 2px 4px rgba(255,255,255,0.2)`
@@ -192,7 +192,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
       {toast.closePosition === 'top' && (
         <button
           onClick={onClose}
-          className="absolute top-1 right-1 rounded-full p-1 bg-background border border-border hover:bg-muted transition-colors shadow-md z-10"
+          className="absolute top-1 right-1 p-1 transition-colors z-10"
           aria-label="Close notification"
         >
           <X className="h-3 w-3" />
@@ -201,14 +201,14 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
       
       <div 
         className="flex items-start gap-1.5"
-        style={{ padding: toast.customStyles?.padding || '8px' }}
+        style={{ padding: toast.customStyles?.padding || '12px' }}
       >
         {toast.showIcon && (
-          <div style={{ color: iconColor }}>
+          <div style={{ color: iconColor, paddingTop:'2px' }}>
             {toast.customIcon || getTypeIcon(toast.type || 'default')}
           </div>
         )}
-        <div className="flex-1 pt-0.5" style={{ marginRight: toast.closePosition === 'inline' ? '0' : '8px' }}>
+        <div className="flex-1 pt-0.5" style={{ marginRight: toast.closePosition === 'inline' ? '0' : '14px' }}>
           <p style={{ margin: 0, lineHeight: '1.5', wordBreak: 'break-word' }}>{toast.message}</p>
         </div>
         {toast.closePosition === 'inline' && (
