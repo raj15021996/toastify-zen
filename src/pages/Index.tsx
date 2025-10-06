@@ -130,22 +130,103 @@ const Index = () => {
         </div>
 
         {/* Quick Demo Buttons */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          <Button onClick={() => showQuickDemo('success')} variant="outline" className="gap-2">
-            Success Toast
-          </Button>
-          <Button onClick={() => showQuickDemo('error')} variant="outline" className="gap-2">
-            Error Toast
-          </Button>
-          <Button onClick={() => showQuickDemo('warning')} variant="outline" className="gap-2">
-            Warning Toast
-          </Button>
-          <Button onClick={() => showQuickDemo('info')} variant="outline" className="gap-2">
-            Info Toast
-          </Button>
-          <Button onClick={() => showQuickDemo('default')} variant="outline" className="gap-2">
-            Default Toast
-          </Button>
+        <div className="space-y-4 mb-12">
+          <div className="text-center">
+            <h3 className="text-sm font-semibold mb-3">Colored Theme Toasts</h3>
+            <div className="flex flex-wrap justify-center gap-3">
+              <Button onClick={() => showQuickDemo('success')} variant="outline" className="gap-2">
+                Success Toast
+              </Button>
+              <Button onClick={() => showQuickDemo('error')} variant="outline" className="gap-2">
+                Error Toast
+              </Button>
+              <Button onClick={() => showQuickDemo('warning')} variant="outline" className="gap-2">
+                Warning Toast
+              </Button>
+              <Button onClick={() => showQuickDemo('info')} variant="outline" className="gap-2">
+                Info Toast
+              </Button>
+              <Button onClick={() => showQuickDemo('default')} variant="outline" className="gap-2">
+                Default Toast
+              </Button>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <h3 className="text-sm font-semibold mb-3">Light Theme Toasts</h3>
+            <div className="flex flex-wrap justify-center gap-3">
+              <Button 
+                onClick={() => addToast({ 
+                  message: 'Operation completed successfully!', 
+                  type: 'success',
+                  theme: 'light',
+                  position: 'top-right',
+                  animation: 'slide',
+                  progressBar: true,
+                })} 
+                variant="outline"
+                className="gap-2"
+              >
+                Light Success
+              </Button>
+              <Button 
+                onClick={() => addToast({ 
+                  message: 'An error occurred. Please try again.', 
+                  type: 'error',
+                  theme: 'light',
+                  position: 'top-right',
+                  animation: 'slide',
+                  progressBar: true,
+                })} 
+                variant="outline"
+                className="gap-2"
+              >
+                Light Error
+              </Button>
+              <Button 
+                onClick={() => addToast({ 
+                  message: 'Warning: This action cannot be undone.', 
+                  type: 'warning',
+                  theme: 'light',
+                  position: 'top-right',
+                  animation: 'slide',
+                  progressBar: true,
+                })} 
+                variant="outline"
+                className="gap-2"
+              >
+                Light Warning
+              </Button>
+              <Button 
+                onClick={() => addToast({ 
+                  message: 'Did you know? This toaster is fully customizable!', 
+                  type: 'info',
+                  theme: 'light',
+                  position: 'top-right',
+                  animation: 'slide',
+                  progressBar: true,
+                })} 
+                variant="outline"
+                className="gap-2"
+              >
+                Light Info
+              </Button>
+              <Button 
+                onClick={() => addToast({ 
+                  message: 'This is a default notification.', 
+                  type: 'default',
+                  theme: 'light',
+                  position: 'top-right',
+                  animation: 'slide',
+                  progressBar: true,
+                })} 
+                variant="outline"
+                className="gap-2"
+              >
+                Light Default
+              </Button>
+            </div>
+          </div>
         </div>
 
         {/* Main Configuration Card */}

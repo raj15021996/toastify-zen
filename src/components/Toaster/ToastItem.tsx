@@ -159,7 +159,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
   };
   
   const iconColor = toast.customStyles?.iconColor || (isLightTheme ? typeColors.bg : typeColors.text);
-  const progressBarColor = toast.customStyles?.progressBarColor || (isLightTheme ? typeColors.bg : 'hsl(var(--toaster-progress))');
+  const progressBarColor = toast.customStyles?.progressBarColor || (isLightTheme ? typeColors.bg : '#ffffff');
 
   const gradientStyle = toast.gradient
     ? {
@@ -192,7 +192,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
       {toast.closePosition === 'top' && (
         <button
           onClick={onClose}
-          className="absolute -top-2 -right-2 rounded-full p-1 bg-background border border-border hover:bg-muted transition-colors shadow-md z-10"
+          className="absolute top-1 right-1 rounded-full p-1 bg-background border border-border hover:bg-muted transition-colors shadow-md z-10"
           aria-label="Close notification"
         >
           <X className="h-3 w-3" />
@@ -201,7 +201,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
       
       <div 
         className="flex items-start gap-1.5"
-        style={{ padding: toast.customStyles?.padding || '12px' }}
+        style={{ padding: toast.customStyles?.padding || '8px' }}
       >
         {toast.showIcon && (
           <div style={{ color: iconColor }}>

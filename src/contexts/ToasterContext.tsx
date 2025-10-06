@@ -69,7 +69,7 @@ export const ToasterProvider: React.FC<{ children: ReactNode }> = ({ children })
       theme: options.theme || 'colored',
       customIcon: options.customIcon,
       showIcon: options.showIcon !== false,
-      closePosition: options.closePosition || 'inline',
+      closePosition: options.closePosition || 'top',
     };
 
     setToasts((prev) => [...prev, toast]);
