@@ -138,6 +138,31 @@ export default {
           "0%": { transform: "scale(1)", opacity: "1" },
           "100%": { transform: "scale(0.3)", opacity: "0" },
         },
+        "toast-rotate-in": {
+          "0%": { transform: "rotate(-180deg) scale(0)", opacity: "0" },
+          "100%": { transform: "rotate(0) scale(1)", opacity: "1" },
+        },
+        "toast-rotate-out": {
+          "0%": { transform: "rotate(0) scale(1)", opacity: "1" },
+          "100%": { transform: "rotate(180deg) scale(0)", opacity: "0" },
+        },
+        "toast-flip-in": {
+          "0%": { transform: "perspective(400px) rotateY(90deg)", opacity: "0" },
+          "100%": { transform: "perspective(400px) rotateY(0)", opacity: "1" },
+        },
+        "toast-flip-out": {
+          "0%": { transform: "perspective(400px) rotateY(0)", opacity: "1" },
+          "100%": { transform: "perspective(400px) rotateY(90deg)", opacity: "0" },
+        },
+        "toast-swing-in": {
+          "0%": { transform: "rotateZ(-10deg)", opacity: "0" },
+          "50%": { transform: "rotateZ(10deg)" },
+          "100%": { transform: "rotateZ(0)", opacity: "1" },
+        },
+        "toast-swing-out": {
+          "0%": { transform: "rotateZ(0)", opacity: "1" },
+          "100%": { transform: "rotateZ(20deg)", opacity: "0" },
+        },
         "progress-fill": {
           "0%": { width: "100%" },
           "100%": { width: "0%" },
@@ -160,6 +185,12 @@ export default {
         "toast-zoom-out": "toast-zoom-out 0.3s ease-out",
         "toast-bounce-in": "toast-bounce-in 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)",
         "toast-bounce-out": "toast-bounce-out 0.3s ease-out",
+        "toast-rotate-in": "toast-rotate-in 0.4s ease-out",
+        "toast-rotate-out": "toast-rotate-out 0.4s ease-out",
+        "toast-flip-in": "toast-flip-in 0.4s ease-out",
+        "toast-flip-out": "toast-flip-out 0.4s ease-out",
+        "toast-swing-in": "toast-swing-in 0.6s ease-out",
+        "toast-swing-out": "toast-swing-out 0.3s ease-out",
         "progress-fill": "progress-fill linear forwards",
       },
     },

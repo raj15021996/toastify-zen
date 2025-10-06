@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useToaster, ToastPosition, ToastAnimation, ToastType } from '@/contexts/ToasterContext';
+import { useToaster, ToastPosition, ToastAnimation, ToastType, ToastTheme } from '@/contexts/ToasterContext';
+import { Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -35,6 +36,12 @@ const Index = () => {
   const [customFontWeight, setCustomFontWeight] = useState('500');
   const [customFontStyle, setCustomFontStyle] = useState('normal');
   const [enable3D, setEnable3D] = useState(false);
+  const [theme, setTheme] = useState<ToastTheme>('colored');
+  const [showIcon, setShowIcon] = useState(true);
+  const [useCustomIcon, setUseCustomIcon] = useState(false);
+  const [closePosition, setClosePosition] = useState<'top' | 'inline'>('inline');
+  const [customProgressBarColor, setCustomProgressBarColor] = useState('');
+  const [customIconColor, setCustomIconColor] = useState('');
 
   useEffect(() => {
     if (isDark) {
@@ -53,6 +60,10 @@ const Index = () => {
       duration,
       progressBar,
       gradient: useGradient ? [gradientStart, gradientEnd] : undefined,
+      theme,
+      showIcon,
+      customIcon: useCustomIcon ? <Heart className="h-5 w-5" fill="currentColor" /> : undefined,
+      closePosition,
       customStyles: {
         backgroundColor: useCustomStyles ? customBg : undefined,
         textColor: useCustomStyles ? customText : undefined,
@@ -65,6 +76,8 @@ const Index = () => {
         fontStyle: customFontStyle,
         boxShadow: enable3D ? '0 20px 60px rgba(0, 0, 0, 0.3), 0 10px 20px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)' : undefined,
         border: enable3D ? '2px solid rgba(255, 255, 255, 0.3)' : undefined,
+        progressBarColor: customProgressBarColor || undefined,
+        iconColor: customIconColor || undefined,
       },
     });
   };
@@ -208,6 +221,23 @@ const Index = () => {
                     <SelectItem value="slide">Slide</SelectItem>
                     <SelectItem value="zoom">Zoom</SelectItem>
                     <SelectItem value="bounce">Bounce</SelectItem>
+                    <SelectItem value="rotate">Rotate</SelectItem>
+                    <SelectItem value="flip">Flip</SelectItem>
+                    <SelectItem value="swing">Swing</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              {/* Theme */}
+              <div className="space-y-2">
+                <Label htmlFor="theme">Theme</Label>
+                <Select value={theme} onValueChange={(v) => setTheme(v as ToastTheme)}>
+                  <SelectTrigger id="theme">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="colored">Colored Background</SelectItem>
+                    <SelectItem value="light">Light (White) Background</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -234,6 +264,43 @@ const Index = () => {
                   checked={progressBar}
                   onCheckedChange={setProgressBar}
                 />
+              </div>
+              
+              {/* Icon Options */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="showIcon">Show Icon</Label>
+                  <Switch
+                    id="showIcon"
+                    checked={showIcon}
+                    onCheckedChange={setShowIcon}
+                  />
+                </div>
+                
+                {showIcon && (
+                  <div className="flex items-center justify-between pl-4 border-l-2 border-primary/20">
+                    <Label htmlFor="useCustomIcon">Use Custom Icon (Heart)</Label>
+                    <Switch
+                      id="useCustomIcon"
+                      checked={useCustomIcon}
+                      onCheckedChange={setUseCustomIcon}
+                    />
+                  </div>
+                )}
+              </div>
+              
+              {/* Close Button Position */}
+              <div className="space-y-2">
+                <Label htmlFor="closePosition">Close Button Position</Label>
+                <Select value={closePosition} onValueChange={(v) => setClosePosition(v as 'top' | 'inline')}>
+                  <SelectTrigger id="closePosition">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="inline">Inline (Inside Toast)</SelectItem>
+                    <SelectItem value="top">Top (Above Toast)</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <Separator />
@@ -340,6 +407,52 @@ const Index = () => {
                     </div>
                   </div>
                 )}
+              </div>
+
+              <Separator />
+              
+              {/* Custom Progress Bar & Icon Colors */}
+              <div className="space-y-4">
+                <Label className="text-base font-semibold">Custom Colors (Progress & Icon)</Label>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="customProgressBarColor">Progress Bar Color</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        id="customProgressBarColor"
+                        type="color"
+                        value={customProgressBarColor || '#6366f1'}
+                        onChange={(e) => setCustomProgressBarColor(e.target.value)}
+                        className="w-16 h-10 p-1"
+                      />
+                      <Input
+                        value={customProgressBarColor}
+                        onChange={(e) => setCustomProgressBarColor(e.target.value)}
+                        className="flex-1"
+                        placeholder="Leave empty for default"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="customIconColor">Icon Color</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        id="customIconColor"
+                        type="color"
+                        value={customIconColor || '#6366f1'}
+                        onChange={(e) => setCustomIconColor(e.target.value)}
+                        className="w-16 h-10 p-1"
+                      />
+                      <Input
+                        value={customIconColor}
+                        onChange={(e) => setCustomIconColor(e.target.value)}
+                        className="flex-1"
+                        placeholder="Leave empty for default"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <Separator />
@@ -500,7 +613,19 @@ const MyComponent = () => {
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-primary mt-0.5">✓</span>
-                    <span><strong>4 Animation Types:</strong> fade, slide, zoom, bounce</span>
+                    <span><strong>7 Animation Types:</strong> fade, slide, zoom, bounce, rotate, flip, swing</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary mt-0.5">✓</span>
+                    <span><strong>2 Theme Variants:</strong> colored background or light (white) background</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary mt-0.5">✓</span>
+                    <span><strong>Custom Icons:</strong> Use your own icons or hide them completely</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary mt-0.5">✓</span>
+                    <span><strong>Pause on Hover:</strong> Toast timer pauses when hovering</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-primary mt-0.5">✓</span>

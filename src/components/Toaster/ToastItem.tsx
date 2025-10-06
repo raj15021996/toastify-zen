@@ -33,6 +33,18 @@ const getAnimationClass = (animation: ToastAnimation, isExiting: boolean, positi
     return isExiting ? 'animate-toast-bounce-out' : 'animate-toast-bounce-in';
   }
   
+  if (animation === 'rotate') {
+    return isExiting ? 'animate-toast-rotate-out' : 'animate-toast-rotate-in';
+  }
+  
+  if (animation === 'flip') {
+    return isExiting ? 'animate-toast-flip-out' : 'animate-toast-flip-in';
+  }
+  
+  if (animation === 'swing') {
+    return isExiting ? 'animate-toast-swing-out' : 'animate-toast-swing-in';
+  }
+  
   return isExiting ? 'animate-toast-fade-out' : 'animate-toast-fade-in';
 };
 
@@ -94,94 +106,60 @@ const getTypeIcon = (type: string) => {
 export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
   const [progress, setProgress] = useState(100);
   const [isPaused, setIsPaused] = useState(false);
+  const [remainingTime, setRemainingTime] = useState(toast.duration || 3000);
   const animationClass = getAnimationClass(
     toast.animation || 'slide',
     toast.isExiting || false,
     toast.position || 'top-right'
   );
 
-  // Auto-dismiss timer with pause on hover
+  // Auto-dismiss timer with pause on hover - fixed to resume from where it paused
   useEffect(() => {
-    if (toast.isExiting) return;
-    
-    const startTime = Date.now();
-    const duration = toast.duration || 3000;
-    let pausedTime = 0;
-    let pauseStartTime = 0;
+    if (toast.isExiting || isPaused) return;
     
     const interval = setInterval(() => {
-      if (isPaused) {
-        if (pauseStartTime === 0) {
-          pauseStartTime = Date.now();
+      setRemainingTime((prev) => {
+        const newTime = prev - 100;
+        if (newTime <= 0) {
+          clearInterval(interval);
+          onClose();
+          return 0;
         }
-        return;
-      }
-      
-      if (pauseStartTime > 0) {
-        pausedTime += Date.now() - pauseStartTime;
-        pauseStartTime = 0;
-      }
-      
-      const elapsed = Date.now() - startTime - pausedTime;
-      
-      if (elapsed >= duration) {
-        clearInterval(interval);
-        onClose();
-      }
+        return newTime;
+      });
     }, 100);
     
     return () => clearInterval(interval);
-  }, [toast.isExiting, toast.duration, isPaused, onClose]);
+  }, [toast.isExiting, isPaused, onClose]);
 
-  // Progress bar animation
+  // Progress bar animation - synced with remaining time
   useEffect(() => {
     if (toast.progressBar && !toast.isExiting) {
-      const startTime = Date.now();
       const duration = toast.duration || 3000;
-      let pausedTime = 0;
-      let pauseStartTime = 0;
-      
-      const interval = setInterval(() => {
-        if (isPaused) {
-          if (pauseStartTime === 0) {
-            pauseStartTime = Date.now();
-          }
-          return;
-        }
-        
-        if (pauseStartTime > 0) {
-          pausedTime += Date.now() - pauseStartTime;
-          pauseStartTime = 0;
-        }
-        
-        const elapsed = Date.now() - startTime - pausedTime;
-        const remaining = Math.max(0, 100 - (elapsed / duration) * 100);
-        setProgress(remaining);
-        
-        if (remaining === 0) {
-          clearInterval(interval);
-        }
-      }, 10);
-      
-      return () => clearInterval(interval);
+      const percentage = (remainingTime / duration) * 100;
+      setProgress(Math.max(0, percentage));
     }
-  }, [toast.progressBar, toast.duration, toast.isExiting, isPaused]);
+  }, [toast.progressBar, toast.duration, toast.isExiting, remainingTime]);
 
   const typeColors = getTypeColors(toast.type || 'default');
+  const isLightTheme = toast.theme === 'light';
   
   const baseStyles: React.CSSProperties = {
-    backgroundColor: toast.customStyles?.backgroundColor || typeColors.bg,
-    color: toast.customStyles?.textColor || typeColors.text,
-    borderColor: typeColors.border,
+    backgroundColor: toast.customStyles?.backgroundColor || (isLightTheme ? '#ffffff' : typeColors.bg),
+    color: toast.customStyles?.textColor || (isLightTheme ? '#000000' : typeColors.text),
+    borderColor: isLightTheme ? typeColors.bg : typeColors.border,
     fontSize: toast.customStyles?.fontSize || '14px',
     borderRadius: toast.customStyles?.borderRadius || '0.5rem',
     width: toast.customStyles?.width,
     height: toast.customStyles?.height,
     boxShadow: toast.customStyles?.boxShadow,
-    border: toast.customStyles?.border || `2px solid ${typeColors.border}`,
+    border: toast.customStyles?.border || `2px solid ${isLightTheme ? typeColors.bg : typeColors.border}`,
     fontWeight: toast.customStyles?.fontWeight || '500',
     fontStyle: toast.customStyles?.fontStyle || 'normal',
   };
+  
+  const iconColor = toast.customStyles?.iconColor || (isLightTheme ? typeColors.bg : typeColors.text);
+  const progressBarColor = toast.customStyles?.progressBarColor || (isLightTheme ? typeColors.bg : 'hsl(var(--toaster-progress))');
 
   const gradientStyle = toast.gradient
     ? {
@@ -211,28 +189,47 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
+      {toast.closePosition === 'top' && (
+        <button
+          onClick={onClose}
+          className="absolute -top-2 -right-2 rounded-full p-1 bg-background border border-border hover:bg-muted transition-colors shadow-md z-10"
+          aria-label="Close notification"
+        >
+          <X className="h-3 w-3" />
+        </button>
+      )}
+      
       <div 
         className="flex items-start gap-1.5"
         style={{ padding: toast.customStyles?.padding || '12px' }}
       >
-        {getTypeIcon(toast.type || 'default')}
-        <div className="flex-1 pt-0.5">
+        {toast.showIcon && (
+          <div style={{ color: iconColor }}>
+            {toast.customIcon || getTypeIcon(toast.type || 'default')}
+          </div>
+        )}
+        <div className="flex-1 pt-0.5" style={{ marginRight: toast.closePosition === 'inline' ? '0' : '8px' }}>
           <p style={{ margin: 0, lineHeight: '1.5', wordBreak: 'break-word' }}>{toast.message}</p>
         </div>
-        <button
-          onClick={onClose}
-          className="flex-shrink-0 rounded-md p-1 hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
-          aria-label="Close notification"
-        >
-          <X className="h-4 w-4" />
-        </button>
+        {toast.closePosition === 'inline' && (
+          <button
+            onClick={onClose}
+            className="flex-shrink-0 rounded-md p-1 hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
+            aria-label="Close notification"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        )}
       </div>
       
       {toast.progressBar && (
         <div className="h-1 bg-black/10 dark:bg-white/10">
           <div
-            className="h-full bg-[hsl(var(--toaster-progress))] transition-all duration-100 ease-linear"
-            style={{ width: `${progress}%` }}
+            className="h-full transition-all duration-100 ease-linear"
+            style={{ 
+              width: `${progress}%`,
+              backgroundColor: progressBarColor
+            }}
           />
         </div>
       )}

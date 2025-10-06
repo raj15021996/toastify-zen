@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 
 export type ToastPosition = 'top-left' | 'top-right' | 'top-center' | 'bottom-left' | 'bottom-right' | 'bottom-center';
-export type ToastAnimation = 'fade' | 'slide' | 'zoom' | 'bounce';
+export type ToastAnimation = 'fade' | 'slide' | 'zoom' | 'bounce' | 'rotate' | 'flip' | 'swing';
 export type ToastType = 'default' | 'success' | 'error' | 'warning' | 'info';
+export type ToastTheme = 'colored' | 'light';
 
 export interface ToastCustomStyles {
   backgroundColor?: string;
@@ -16,6 +17,8 @@ export interface ToastCustomStyles {
   fontWeight?: string;
   padding?: string;
   fontStyle?: string;
+  progressBarColor?: string;
+  iconColor?: string;
 }
 
 export interface ToastOptions {
@@ -28,6 +31,10 @@ export interface ToastOptions {
   gradient?: [string, string];
   customStyles?: ToastCustomStyles;
   onClose?: () => void;
+  theme?: ToastTheme;
+  customIcon?: React.ReactNode;
+  showIcon?: boolean;
+  closePosition?: 'top' | 'inline';
 }
 
 export interface Toast extends ToastOptions {
@@ -59,6 +66,10 @@ export const ToasterProvider: React.FC<{ children: ReactNode }> = ({ children })
       gradient: options.gradient,
       customStyles: options.customStyles,
       onClose: options.onClose,
+      theme: options.theme || 'colored',
+      customIcon: options.customIcon,
+      showIcon: options.showIcon !== false,
+      closePosition: options.closePosition || 'inline',
     };
 
     setToasts((prev) => [...prev, toast]);
