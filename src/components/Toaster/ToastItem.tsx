@@ -158,7 +158,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
   };
   
   const iconColor = toast.customStyles?.iconColor || (isLightTheme ? typeColors.bg : typeColors.text);
-  const progressBarColor = toast.customStyles?.progressBarColor || (isLightTheme ? typeColors.bg : (toast.type === 'default' ? '#000000' : '#ffffff'));
+  const progressBarColor = toast.customStyles?.progressBarColor || (isLightTheme ? (toast.type === 'default' ? '#000000' : typeColors.bg) : (toast.type === 'default' ? '#000000' : '#ffffff'));
 
   const gradientStyle = toast.gradient
     ? {
