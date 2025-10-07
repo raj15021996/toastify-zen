@@ -149,7 +149,6 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
     color: toast.customStyles?.textColor || (isLightTheme ? '#000000' : typeColors.text),
     borderColor: isLightTheme ? typeColors.bg : typeColors.border,
     fontSize: toast.customStyles?.fontSize || '14px',
-    borderRadius: toast.customStyles?.borderRadius || '0.5rem',
     width: toast.customStyles?.width,
     height: toast.customStyles?.height,
     boxShadow: toast.customStyles?.boxShadow,
@@ -175,14 +174,15 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
         ${animationClass}
         overflow-hidden pointer-events-auto
         relative backdrop-blur-sm
-        w-full sm:w-auto
+        w-full sm:w-auto sm:max-w-[300px]
+        rounded-none sm:rounded-lg
         ${is3D ? 'shadow-2xl transform-gpu hover:scale-105 transition-all duration-300' : 'shadow-lg'}
       `}
       style={{ 
         ...baseStyles, 
         ...gradientStyle,
         width: toast.customStyles?.width,
-        maxWidth: toast.customStyles?.width || '300px',
+        borderRadius: toast.customStyles?.borderRadius,
         transform: is3D ? 'perspective(1200px) rotateX(3deg) translateZ(20px)' : undefined,
         boxShadow: is3D 
           ? `0 25px 50px -12px ${typeColors.bg.replace(')', ' / 0.4)')}, 0 0 30px ${typeColors.bg.replace(')', ' / 0.2)')}, inset 0 2px 4px rgba(255,255,255,0.2)`
