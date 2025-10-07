@@ -32,7 +32,7 @@ export interface ToastOptions {
   customStyles?: ToastCustomStyles;
   onClose?: () => void;
   theme?: ToastTheme;
-  customIcon?: React.ReactNode;
+  customIcon?: React.ReactNode | string;
   showIcon?: boolean;
   closePosition?: 'top' | 'inline';
 }

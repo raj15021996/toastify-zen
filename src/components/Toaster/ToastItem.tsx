@@ -159,7 +159,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
   };
   
   const iconColor = toast.customStyles?.iconColor || (isLightTheme ? typeColors.bg : typeColors.text);
-  const progressBarColor = toast.customStyles?.progressBarColor || (isLightTheme ? typeColors.bg : '#ffffff');
+  const progressBarColor = toast.customStyles?.progressBarColor || (isLightTheme ? typeColors.bg : (toast.type === 'default' ? '#000000' : '#ffffff'));
 
   const gradientStyle = toast.gradient
     ? {
@@ -204,8 +204,16 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
         style={{ padding: toast.customStyles?.padding || '12px' }}
       >
         {toast.showIcon && (
-          <div style={{ color: iconColor, paddingTop:'2px' }}>
-            {toast.customIcon || getTypeIcon(toast.type || 'default')}
+          <div style={{ color: iconColor, paddingTop:'2px', width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            {typeof toast.customIcon === 'string' ? (
+              <img 
+                src={toast.customIcon} 
+                alt="toast icon" 
+                style={{ width: '20px', height: '20px', objectFit: 'contain' }}
+              />
+            ) : (
+              toast.customIcon || getTypeIcon(toast.type || 'default')
+            )}
           </div>
         )}
         <div className="flex-1 pt-0.5" style={{ marginRight: toast.closePosition === 'inline' ? '0' : '14px' }}>
