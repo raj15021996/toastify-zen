@@ -3,23 +3,25 @@ import { useToaster, ToastPosition } from '@/contexts/ToasterContext';
 import { ToastItem } from './ToastItem';
 
 const getPositionClasses = (position: ToastPosition): string => {
-  const baseClasses = 'fixed z-50 flex flex-col gap-2 p-4 pointer-events-none';
+  const baseClasses = 'fixed z-50 flex flex-col gap-2 pointer-events-none';
+  const padding = 'p-2 sm:p-4';
+  const mobileCenter = 'max-sm:left-0 max-sm:right-0 max-sm:!translate-x-0';
   
   switch (position) {
     case 'top-left':
-      return `${baseClasses} top-0 left-0`;
+      return `${baseClasses} ${padding} top-0 left-0 ${mobileCenter}`;
     case 'top-right':
-      return `${baseClasses} top-0 right-0`;
+      return `${baseClasses} ${padding} top-0 right-0 ${mobileCenter}`;
     case 'top-center':
-      return `${baseClasses} top-0 left-1/2 -translate-x-1/2`;
+      return `${baseClasses} ${padding} top-0 left-1/2 -translate-x-1/2 max-sm:left-0 max-sm:right-0 max-sm:!translate-x-0`;
     case 'bottom-left':
-      return `${baseClasses} bottom-0 left-0`;
+      return `${baseClasses} ${padding} bottom-0 left-0 ${mobileCenter}`;
     case 'bottom-right':
-      return `${baseClasses} bottom-0 right-0`;
+      return `${baseClasses} ${padding} bottom-0 right-0 ${mobileCenter}`;
     case 'bottom-center':
-      return `${baseClasses} bottom-0 left-1/2 -translate-x-1/2`;
+      return `${baseClasses} ${padding} bottom-0 left-1/2 -translate-x-1/2 max-sm:left-0 max-sm:right-0 max-sm:!translate-x-0`;
     default:
-      return `${baseClasses} top-0 right-0`;
+      return `${baseClasses} ${padding} top-0 right-0 ${mobileCenter}`;
   }
 };
 
