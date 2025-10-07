@@ -66,10 +66,10 @@ export const ToasterProvider: React.FC<{ children: ReactNode }> = ({ children })
       gradient: options.gradient,
       customStyles: options.customStyles,
       onClose: options.onClose,
-      theme: options.theme || 'colored',
+      theme: options.theme || 'light',
       customIcon: options.customIcon,
       showIcon: options.showIcon !== false,
-      closePosition: options.closePosition || 'top',
+      closePosition: options.closePosition || 'inline',
     };
 
     setToasts((prev) => [...prev, toast]);

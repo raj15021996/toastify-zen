@@ -94,10 +94,8 @@ const Index = () => {
     addToast({
       message: messages[demoType],
       type: demoType,
-      position: 'top-right',
-      animation: 'slide',
-      duration: 3000,
-      progressBar: true,
+      theme: 'colored',
+      closePosition:'inline'
     });
   };
 
