@@ -52,7 +52,7 @@ interface ToasterContextType {
 const ToasterContext = createContext<ToasterContextType | undefined>(undefined);
 
 const getPositionClasses = (position: ToastPosition): string => {
-  const baseClasses = 'fixed z-50 flex flex-col gap-2 pointer-events-none';
+  const baseClasses = 'fixed z-50 flex flex-col gap-2 pointer-events-none w-[300px]';
   const padding = 'p-2 sm:p-4';
   const mobileCenter = 'max-sm:left-0 max-sm:right-0 max-sm:!translate-x-0';
   
