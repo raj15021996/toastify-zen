@@ -6,74 +6,67 @@
   flex-direction: column;
   gap: 8px;
   pointer-events: none;
-  width: 300px;
   padding: 8px;
 }
 
-@media (min-width: 640px) {
+/* Desktop - Default to top-right with fixed width */
+@media (min-width: 1024px) {
   .toast-container {
+    width: 300px;
     padding: 16px;
   }
-}
-
-/* Position variants */
-.toast-container-top-left {
-  top: 0;
-  left: 0;
-}
-
-.toast-container-top-right {
-  top: 0;
-  right: 0;
-}
-
-.toast-container-top-center {
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.toast-container-bottom-left {
-  bottom: 0;
-  left: 0;
-}
-
-.toast-container-bottom-right {
-  bottom: 0;
-  right: 0;
-}
-
-.toast-container-bottom-center {
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* Mobile responsive - Full width and bottom position by default */
-@media (max-width: 768px) {
-  .toast-container {
-    width: calc(100% - 16px);
-    padding: 8px;
-  }
   
-  /* All positions default to bottom on mobile */
-  .toast-container-top-left,
-  .toast-container-top-right,
+  .toast-container-top-left {
+    top: 0;
+    left: 0;
+  }
+
+  .toast-container-top-right {
+    top: 0;
+    right: 0;
+  }
+
   .toast-container-top-center {
-    top: auto;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .toast-container-bottom-left {
     bottom: 0;
     left: 0;
+  }
+
+  .toast-container-bottom-right {
+    bottom: 0;
     right: 0;
-    transform: translateX(0) !important;
+  }
+
+  .toast-container-bottom-center {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+/* Mobile and Tablet - Full width and bottom position by default */
+@media (max-width: 1023px) {
+  .toast-container {
+    width: 100%;
+    left: 0 !important;
+    right: 0 !important;
+    transform: none !important;
   }
   
+  /* All positions default to bottom on mobile and tablet */
+  .toast-container-top-left,
+  .toast-container-top-right,
+  .toast-container-top-center,
   .toast-container-bottom-left,
   .toast-container-bottom-right,
   .toast-container-bottom-center {
     bottom: 0;
-    left: 0;
-    right: 0;
-    transform: translateX(0) !important;
+    top: auto;
   }
 }
 
@@ -84,11 +77,18 @@
   position: relative;
   backdrop-filter: blur(8px);
   width: 100%;
-  border-radius: 0;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
-@media (min-width: 640px) {
+/* Mobile and Tablet - No border radius, full width */
+@media (max-width: 1023px) {
+  .toast-item {
+    border-radius: 0;
+  }
+}
+
+/* Desktop - Fixed width with border radius */
+@media (min-width: 1024px) {
   .toast-item {
     width: auto;
     max-width: 300px;
