@@ -49,19 +49,28 @@
   transform: translateX(-50%);
 }
 
-/* Mobile center alignment */
-@media (max-width: 639px) {
+/* Mobile responsive - Full width and bottom position by default */
+@media (max-width: 768px) {
+  .toast-container {
+    width: calc(100% - 16px);
+    padding: 8px;
+  }
+  
+  /* All positions default to bottom on mobile */
   .toast-container-top-left,
   .toast-container-top-right,
-  .toast-container-bottom-left,
-  .toast-container-bottom-right {
+  .toast-container-top-center {
+    top: auto;
+    bottom: 0;
     left: 0;
     right: 0;
     transform: translateX(0) !important;
   }
   
-  .toast-container-top-center,
+  .toast-container-bottom-left,
+  .toast-container-bottom-right,
   .toast-container-bottom-center {
+    bottom: 0;
     left: 0;
     right: 0;
     transform: translateX(0) !important;
