@@ -53,41 +53,37 @@ const getTypeColors = (type: string) => {
   switch (type) {
     case 'success':
       return {
-        bg: 'hsl(var(--toaster-success))',
-        text: 'hsl(var(--toaster-success-foreground))',
-        border: 'hsl(var(--toaster-success))'
+        bg: '#22c55e',
+        text: '#ffffff',
+        border: '#22c55e'
       };
     case 'error':
       return {
-        bg: 'hsl(var(--toaster-error))',
-        text: 'hsl(var(--toaster-error-foreground))',
-        border: 'hsl(var(--toaster-error))'
+        bg: '#ef4444',
+        text: '#ffffff',
+        border: '#ef4444'
       };
     case 'warning':
       return {
-        bg: 'hsl(var(--toaster-warning))',
-        text: 'hsl(var(--toaster-warning-foreground))',
-        border: 'hsl(var(--toaster-warning))'
+        bg: '#f59e0b',
+        text: '#ffffff',
+        border: '#f59e0b'
       };
     case 'info':
       return {
-        bg: 'hsl(var(--toaster-info))',
-        text: 'hsl(var(--toaster-info-foreground))',
-        border: 'hsl(var(--toaster-info))'
+        bg: '#3b82f6',
+        text: '#ffffff',
+        border: '#3b82f6'
       };
     default:
       return {
-        bg: 'hsl(var(--toaster-default))',
-        text: 'hsl(var(--toaster-default-foreground))',
-        border: 'hsl(var(--border))'
+        bg: '#64748b',
+        text: '#ffffff',
+        border: '#e2e8f0'
       };
   }
 };
 
-const getTypeStyles = (type: string) => {
-  const colors = getTypeColors(type);
-  return `bg-[${colors.bg}] text-[${colors.text}] border-[${colors.border}]`;
-};
 
 const getTypeIcon = (type: string) => {
   switch (type) {
