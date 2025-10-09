@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Toast, ToastAnimation } from '@/contexts/ToasterContext';
 import { X, CheckCircle2, XCircle, AlertCircle, Info } from 'lucide-react';
+import './toaster.css';
 
 interface ToastItemProps {
   toast: Toast;
@@ -91,13 +92,13 @@ const getTypeStyles = (type: string) => {
 const getTypeIcon = (type: string) => {
   switch (type) {
     case 'success':
-      return <CheckCircle2 className="h-5 w-5 flex-shrink-0" />;
+      return <CheckCircle2 />;
     case 'error':
-      return <XCircle className="h-5 w-5 flex-shrink-0" />;
+      return <XCircle />;
     case 'warning':
-      return <AlertCircle className="h-5 w-5 flex-shrink-0" />;
+      return <AlertCircle />;
     case 'info':
-      return <Info className="h-5 w-5 flex-shrink-0" />;
+      return <Info />;
     default:
       return null;
   }
@@ -170,14 +171,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
 
   return (
     <div
-      className={`
-        ${animationClass}
-        overflow-hidden pointer-events-auto
-        relative backdrop-blur-sm
-        w-full sm:w-auto sm:max-w-[300px]
-        rounded-none sm:rounded-lg
-        ${is3D ? 'shadow-2xl transform-gpu hover:scale-105 transition-all duration-300' : 'shadow-lg'}
-      `}
+      className={`toast-item ${is3D ? 'toast-item-3d' : ''} ${animationClass}`}
       style={{ 
         ...baseStyles, 
         ...gradientStyle,
@@ -194,48 +188,47 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
       {toast.closePosition === 'top' && (
         <button
           onClick={onClose}
-          className="absolute top-1 right-1 p-1 transition-colors z-10"
+          className="toast-close-top"
           aria-label="Close notification"
         >
-          <X className="h-3 w-3" />
+          <X />
         </button>
       )}
       
       <div 
-        className="flex items-start gap-1.5 sm:gap-2"
+        className="toast-content"
         style={{ padding: toast.customStyles?.padding || '8px' }}
       >
         {toast.showIcon && (
-          <div style={{ color: iconColor, paddingTop:'2px', width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div className="toast-icon" style={{ color: iconColor }}>
             {typeof toast.customIcon === 'string' ? (
               <img 
                 src={toast.customIcon} 
-                alt="toast icon" 
-                style={{ width: '20px', height: '20px', objectFit: 'contain' }}
+                alt="toast icon"
               />
             ) : (
               toast.customIcon || getTypeIcon(toast.type || 'default')
             )}
           </div>
         )}
-        <div className="flex-1 pt-0.5" style={{ marginRight: toast.closePosition === 'inline' ? '0' : '14px' }}>
+        <div className="toast-message" style={{ marginRight: toast.closePosition === 'inline' ? '0' : '14px' }}>
           <p style={{ margin: 0, lineHeight: '1.5', wordBreak: 'break-word' }}>{toast.message}</p>
         </div>
         {toast.closePosition === 'inline' && (
           <button
             onClick={onClose}
-            className="flex-shrink-0 rounded-md p-1 hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
+            className="toast-close-inline"
             aria-label="Close notification"
           >
-            <X className="h-4 w-4" />
+            <X />
           </button>
         )}
       </div>
       
       {toast.progressBar && (
-        <div className="h-1 bg-black/10 dark:bg-white/10">
+        <div className="toast-progress-container">
           <div
-            className="h-full transition-all duration-100 ease-linear"
+            className="toast-progress-bar"
             style={{ 
               width: `${progress}%`,
               backgroundColor: progressBarColor

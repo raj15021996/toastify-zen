@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 import { ToastItem } from '@/components/Toaster/ToastItem';
+import '@/components/Toaster/toaster.css';
 
 export type ToastPosition = 'top-left' | 'top-right' | 'top-center' | 'bottom-left' | 'bottom-right' | 'bottom-center';
 export type ToastAnimation = 'fade' | 'slide' | 'zoom' | 'bounce' | 'rotate' | 'flip' | 'swing';
@@ -52,25 +53,21 @@ interface ToasterContextType {
 const ToasterContext = createContext<ToasterContextType | undefined>(undefined);
 
 const getPositionClasses = (position: ToastPosition): string => {
-  const baseClasses = 'fixed z-50 flex flex-col gap-2 pointer-events-none w-[300px]';
-  const padding = 'p-2 sm:p-4';
-  const mobileCenter = 'max-sm:left-0 max-sm:right-0 max-sm:!translate-x-0';
-  
   switch (position) {
     case 'top-left':
-      return `${baseClasses} ${padding} top-0 left-0 ${mobileCenter}`;
+      return 'toast-container toast-container-top-left';
     case 'top-right':
-      return `${baseClasses} ${padding} top-0 right-0 ${mobileCenter}`;
+      return 'toast-container toast-container-top-right';
     case 'top-center':
-      return `${baseClasses} ${padding} top-0 left-1/2 -translate-x-1/2 max-sm:left-0 max-sm:right-0 max-sm:!translate-x-0`;
+      return 'toast-container toast-container-top-center';
     case 'bottom-left':
-      return `${baseClasses} ${padding} bottom-0 left-0 ${mobileCenter}`;
+      return 'toast-container toast-container-bottom-left';
     case 'bottom-right':
-      return `${baseClasses} ${padding} bottom-0 right-0 ${mobileCenter}`;
+      return 'toast-container toast-container-bottom-right';
     case 'bottom-center':
-      return `${baseClasses} ${padding} bottom-0 left-1/2 -translate-x-1/2 max-sm:left-0 max-sm:right-0 max-sm:!translate-x-0`;
+      return 'toast-container toast-container-bottom-center';
     default:
-      return `${baseClasses} ${padding} top-0 right-0 ${mobileCenter}`;
+      return 'toast-container toast-container-top-right';
   }
 };
 
